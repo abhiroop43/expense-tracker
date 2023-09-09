@@ -50,11 +50,11 @@ const expensesSlice = createSlice({
     },
 
     updateExpense: (state, action) => {
-      state.allExpenses.map((expense) => {
+      state.allExpenses = state.allExpenses.map((expense) => {
         if (expense.id === action.payload.id) {
           expense.description = action.payload.description;
           expense.amount = action.payload.amount;
-          expense.description = action.payload.date;
+          expense.date = action.payload.date;
         }
         return expense;
       });

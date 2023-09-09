@@ -4,7 +4,8 @@ import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../components/UI/Button';
-import { removeExpense } from '../store/redux/expenses';
+import { addExpense, removeExpense, updateExpense } from '../store/redux/expenses';
+import uuid from 'react-native-uuid';
 
 function ManageExpense({ route, navigation }) {
   const allExpenses = useSelector((state) => state.allExpenses.allExpenses);
@@ -29,6 +30,25 @@ function ManageExpense({ route, navigation }) {
   }
 
   function confirmHandler() {
+    if (!editedExpenseId) {
+      dispatch(addExpense({ description: 'test', amount: 8.0, date: '2023-09-15' }));
+    } else {
+      var currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
+
+      if (!currentExpense) {
+        console.log('ERR-01: Could not find the expense with id: ', editedExpenseId);
+        return;
+      }
+
+      dispatch(
+        updateExpense({
+          id: currentExpense.id,
+          description: 'Hello from Abhiroop',
+          amount: 100.5,
+          date: '2023-08-18',
+        })
+      );
+    }
     navigation.goBack();
   }
 

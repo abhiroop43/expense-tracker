@@ -1,7 +1,9 @@
 import ExpensesOutput from '../components/ExpensesOutput/ExpensesOutput';
+import { useSelector } from 'react-redux';
 
 function RecentExpenses() {
-  return <ExpensesOutput expensesPeriod="Last 7 Days" />;
+  const recentExpenses = useSelector((state) => state.allExpenses.allExpenses);
+  return <ExpensesOutput expensesPeriod="Last 7 Days" expenses={recentExpenses} />;
 }
 
 export default RecentExpenses;

@@ -2,45 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import ExpensesSummary from './ExpensesSummary';
 import ExpensesList from './ExpensesList';
 import { GlobalStyles } from '../../constants/styles';
-
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    description: 'A pair of shoes',
-    amount: 59.99,
-    date: new Date('2021-12-19'),
-  },
-  {
-    id: 'e2',
-    description: 'A pair of trousers',
-    amount: 89.29,
-    date: new Date('2022-01-05'),
-  },
-  {
-    id: 'e3',
-    description: 'Some bananas',
-    amount: 5.99,
-    date: new Date('2021-12-01'),
-  },
-  {
-    id: 'e4',
-    description: 'A book',
-    amount: 14.99,
-    date: new Date('2022-02-19'),
-  },
-  {
-    id: 'e5',
-    description: 'A pen',
-    amount: 8.29,
-    date: new Date('2022-02-18'),
-  },
-];
+import { useSelector } from 'react-redux';
 
 function ExpensesOutput({ expenses, expensesPeriod }) {
+  const allExpenses = useSelector((state) => state.allExpenses.allExpenses);
   return (
     <View style={styles.container}>
-      <ExpensesSummary expenses={DUMMY_EXPENSES} periodName={expensesPeriod} />
-      <ExpensesList expenses={DUMMY_EXPENSES} />
+      <ExpensesSummary expenses={allExpenses} periodName={expensesPeriod} />
+      <ExpensesList expenses={allExpenses} />
     </View>
   );
 }

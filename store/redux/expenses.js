@@ -1,36 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getIsoDateString } from '../../util/date';
+import uuid from 'react-native-uuid';
 
 const expensesSlice = createSlice({
   name: 'expenses',
   initialState: {
     allExpenses: [
       {
-        id: 'e1',
+        id: uuid.v4(),
         description: 'A pair of shoes',
         amount: 59.99,
         date: getIsoDateString(new Date('2021-12-19')),
       },
       {
-        id: 'e2',
+        id: uuid.v4(),
         description: 'A pair of trousers',
         amount: 89.29,
         date: getIsoDateString(new Date('2022-01-05')),
       },
       {
-        id: 'e3',
+        id: uuid.v4(),
         description: 'Some bananas',
         amount: 5.99,
         date: getIsoDateString(new Date('2021-12-01')),
       },
       {
-        id: 'e4',
+        id: uuid.v4(),
         description: 'A book',
         amount: 14.99,
         date: getIsoDateString(new Date('2022-02-19')),
       },
       {
-        id: 'e5',
+        id: uuid.v4(),
         description: 'A pen',
         amount: 8.29,
         date: getIsoDateString(new Date('2022-02-18')),
@@ -39,15 +40,21 @@ const expensesSlice = createSlice({
   },
   reducers: {
     addExpense: (state, action) => {
-      state.allExpenses.push(action.payload.expense);
+      const newExpense = {
+        id: uuid.v4(),
+        description: action.payload.description,
+        amount: action.payload.amount,
+        date: getIsoDateString(new Date(action.payload.date)),
+      };
+      state.allExpenses.push(newExpense);
     },
 
     updateExpense: (state, action) => {
       state.allExpenses.map((expense) => {
-        if (expense.id === action.payload.expense.id) {
-          expense.description = action.payload.expense.description;
-          expense.amount = action.payload.expense.amount;
-          expense.description = action.payload.expense.date;
+        if (expense.id === action.payload.id) {
+          expense.description = action.payload.description;
+          expense.amount = action.payload.amount;
+          expense.description = action.payload.date;
         }
         return expense;
       });

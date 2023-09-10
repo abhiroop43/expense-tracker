@@ -1,32 +1,56 @@
-import { View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Input from './Input';
+import { useState } from 'react';
 
 function ExpenseForm() {
-  function amountChangedHandler() {}
+  const [inputValues, setInputValues] = useState({
+    amount: '',
+    date: '',
+    description: '',
+  });
+
+  function inputChangedHandler(inputIndentifier, enteredValue) {
+    setInputValues((currentInputValues) => {
+      return {
+        ...currentInputValues,
+        [inputIndentifier]: enteredValue,
+      };
+    });
+  }
 
   return (
-    <View>
-      <Input
-        label="Amount"
-        textInputConfig={{
-          keyboardType: 'decimal-pad',
-          onChangeText: amountChangedHandler,
-        }}
-      />
-      {/* TODO: Use DatePicker */}
-      <Input
-        label="Date"
-        textInputConfig={{
-          placeholder: 'YYYY-MM-DD',
-          maxLength: 10,
-          onChangeText: () => {},
-        }}
-      />
+    <View style={styles.form}>
+      <Text style={styles.title}>Your Expense</Text>
+      <View style={styles.inputsRow}>
+        <Input
+          label="Amount"
+          textInputConfig={{
+            keyboardType: 'decimal-pad',
+            onChangeText: inputChangedHandler.bind(this, 'amount'),
+            value: inputValues.amount,
+          }}
+          style={styles.rowInput}
+        />
+        {/* TODO: Use DatePicker */}
+        <Input
+          label="Date"
+          textInputConfig={{
+            placeholder: 'YYYY-MM-DD',
+            maxLength: 10,
+            onChangeText: inputChangedHandler.bind(this, 'date'),
+            value: inputValues.date,
+          }}
+          style={styles.rowInput}
+        />
+      </View>
+
       <Input
         label="Description"
         textInputConfig={{
-          keyboardType: 'decimal-pad',
-          onChangeText: amountChangedHandler,
+          multiline: true,
+          // autoCorrect: false,
+          onChangeText: inputChangedHandler.bind(this, 'description'),
+          value: inputValues.description,
         }}
       />
     </View>
@@ -34,3 +58,24 @@ function ExpenseForm() {
 }
 
 export default ExpenseForm;
+
+const styles = StyleSheet.create({
+  form: {
+    marginTop: 40,
+  },
+  title: {
+    fontSize: 34,
+    fontWeight: 'bold',
+    color: 'white',
+    marginVertical: 24,
+    textAlign: 'center',
+  },
+  inputsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  rowInput: {
+    flex: 1,
+  },
+});

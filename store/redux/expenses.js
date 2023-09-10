@@ -28,13 +28,13 @@ const expensesSlice = createSlice({
         id: uuid.v4(),
         description: 'A book',
         amount: 14.99,
-        date: getIsoDateString(new Date('2022-02-19')),
+        date: getIsoDateString(new Date('2023-09-08')),
       },
       {
         id: uuid.v4(),
         description: 'A pen',
         amount: 8.29,
-        date: getIsoDateString(new Date('2022-02-18')),
+        date: getIsoDateString(new Date('2023-09-02')),
       },
     ],
   },
@@ -62,7 +62,7 @@ const expensesSlice = createSlice({
 
     removeExpense: (state, action) => {
       state.allExpenses = state.allExpenses.filter((expense) => {
-        return expense.id != action.payload.id;
+        return expense.id !== action.payload.id;
       });
     },
   },

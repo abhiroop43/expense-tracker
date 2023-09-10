@@ -33,7 +33,7 @@ function ManageExpense({ route, navigation }) {
     if (!editedExpenseId) {
       dispatch(addExpense({ description: 'test', amount: 8.0, date: '2023-09-15' }));
     } else {
-      var currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
+      const currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
 
       if (!currentExpense) {
         console.log('ERR-01: Could not find the expense with id: ', editedExpenseId);

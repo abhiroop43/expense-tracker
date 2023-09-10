@@ -5,7 +5,7 @@ import { GlobalStyles } from '../constants/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../components/UI/Button';
 import { addExpense, removeExpense, updateExpense } from '../store/redux/expenses';
-import uuid from 'react-native-uuid';
+import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 
 function ManageExpense({ route, navigation }) {
   const allExpenses = useSelector((state) => state.allExpenses.allExpenses);
@@ -54,6 +54,7 @@ function ManageExpense({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttonContainer}>
         <Button mode="flat" onPress={cancelHandler} style={styles.button}>
           Cancel

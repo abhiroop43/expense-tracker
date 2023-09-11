@@ -2,12 +2,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import Input from './Input';
 import { useState } from 'react';
 import Button from '../UI/Button';
+import { getFormattedDate } from '../../util/date';
 
-function ExpenseForm({ onCancel, onSubmit, submitButtonLabel }) {
+function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
+  // TODO: Fix bug for amount decimal trailing 0 truncation
+  // TODO: fix bug for leading 0 of month and day truncation
   const [inputValues, setInputValues] = useState({
-    amount: '',
-    date: '',
-    description: '',
+    amount: defaultValues ? defaultValues.amount.toString() : '',
+    date: defaultValues ? getFormattedDate(defaultValues.date) : '',
+    description: defaultValues ? defaultValues.description : '',
   });
 
   function submitHandler() {

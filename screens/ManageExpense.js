@@ -5,6 +5,7 @@ import { GlobalStyles } from '../constants/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExpense, removeExpense, updateExpense } from '../store/redux/expenses';
 import ExpenseForm from '../components/ManageExpense/ExpenseForm';
+import { storeExpense } from '../util/http';
 
 function ManageExpense({ route, navigation }) {
   const allExpenses = useSelector((state) => state.allExpenses.allExpenses);
@@ -32,6 +33,7 @@ function ManageExpense({ route, navigation }) {
 
   function confirmHandler(expenseData) {
     if (!editedExpenseId) {
+      storeExpense(expenseData);
       dispatch(addExpense(expenseData));
     } else {
       const currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);

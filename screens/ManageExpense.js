@@ -31,10 +31,10 @@ function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (!editedExpenseId) {
-      storeExpense(expenseData);
-      dispatch(addExpense(expenseData));
+      const id = await storeExpense(expenseData);
+      dispatch(addExpense({ ...expenseData, id: id }));
     } else {
       const currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
 

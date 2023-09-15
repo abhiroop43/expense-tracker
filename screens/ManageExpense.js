@@ -7,9 +7,13 @@ import { addExpense, removeExpense, updateExpense } from '../store/redux/expense
 import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 import { storeExpense, updateExpenseService, deleteExpenseService } from '../util/http';
 import LoadingOverlay from '../components/UI/LoadingOverlay';
+import ErrorOverlay from '../components/UI/ErrorOverlay';
 
 function ManageExpense({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [error, setError] = useState();
+
   const allExpenses = useSelector((state) => state.allExpenses.allExpenses);
   const dispatch = useDispatch();
 
@@ -25,11 +29,15 @@ function ManageExpense({ route, navigation }) {
   }, [navigation, isEditing]);
 
   async function deleteExpenseHandler() {
-    dispatch(removeExpense({ id: editedExpenseId }));
-    setIsSubmitting(true);
-    await deleteExpenseService(editedExpenseId);
+    try {
+      dispatch(removeExpense({ id: editedExpenseId }));
+      setIsSubmitting(true);
+      await deleteExpenseService(editedExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      setError('Unable to delete the expense. Please try again later.');
+    }
     setIsSubmitting(false);
-    navigation.goBack();
   }
 
   function cancelHandler() {
@@ -38,10 +46,15 @@ function ManageExpense({ route, navigation }) {
 
   async function confirmHandler(expenseData) {
     if (!editedExpenseId) {
-      setIsSubmitting(true);
-      const id = await storeExpense(expenseData);
+      try {
+        setIsSubmitting(true);
+        const id = await storeExpense(expenseData);
+        dispatch(addExpense({ ...expenseData, id: id }));
+        navigation.goBack();
+      } catch (error) {
+        setError('Unable to update the expense. Please try again later.');
+      }
       setIsSubmitting(false);
-      dispatch(addExpense({ ...expenseData, id: id }));
     } else {
       const currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
 
@@ -50,17 +63,29 @@ function ManageExpense({ route, navigation }) {
         return;
       }
 
-      dispatch(
-        updateExpense({
-          id: editedExpenseId,
-          ...expenseData,
-        })
-      );
-      setIsSubmitting(true);
-      await updateExpenseService(editedExpenseId, expenseData);
+      try {
+        dispatch(
+          updateExpense({
+            id: editedExpenseId,
+            ...expenseData,
+          })
+        );
+        setIsSubmitting(true);
+        await updateExpenseService(editedExpenseId, expenseData);
+        navigation.goBack();
+      } catch (error) {
+        setError('Unable to add the expense. Please try again later.');
+      }
       setIsSubmitting(false);
     }
-    navigation.goBack();
+  }
+
+  // function errorHandler() {
+  //   setError(null);
+  // }
+
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} />;
   }
 
   if (isSubmitting) {

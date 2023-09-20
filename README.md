@@ -37,8 +37,9 @@ Before you begin, make sure you have the following software installed on your sy
 
 1. Clone this repository to your local machine using the following command:
 
-   ```bash
-   git clone https://github.com/abhiroop43/expense-tracker
+```bash
+git clone https://github.com/abhiroop43/expense-tracker
+```
 
 2. Navigate to the project directory:
 

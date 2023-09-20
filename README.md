@@ -1,4 +1,4 @@
-# Expense Tracker App
+# Expense Tracker
 
 The Expense Tracker App is a mobile application built with React Native that allows users to manage their expenses. With
 this app, users can view a list of recent expenses, all expenses, add new expenses, update existing ones, and delete
@@ -30,9 +30,8 @@ Follow these instructions to set up and run the Expense Tracker App on your deve
 Before you begin, make sure you have the following software installed on your system:
 
 - Node.js (v14 or higher)
-- npm (Node Package Manager)
-- React Native CLI
-- Xcode (for iOS development) or Android Studio (for Android development)
+- npm or yarn
+- An android/iOS device or emulator
 
 ### Installation
 

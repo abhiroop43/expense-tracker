@@ -1,13 +1,21 @@
-import { useLayoutEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import IconButton from '../components/UI/IconButton';
-import { GlobalStyles } from '../constants/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { addExpense, removeExpense, updateExpense } from '../store/redux/expenses';
-import ExpenseForm from '../components/ManageExpense/ExpenseForm';
-import { storeExpense, updateExpenseService, deleteExpenseService } from '../util/http';
-import LoadingOverlay from '../components/UI/LoadingOverlay';
-import ErrorOverlay from '../components/UI/ErrorOverlay';
+import { useLayoutEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import IconButton from "../components/UI/IconButton";
+import { GlobalStyles } from "../constants/styles";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addExpense,
+  removeExpense,
+  updateExpense,
+} from "../store/redux/expenses";
+import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import {
+  storeExpense,
+  updateExpenseService,
+  deleteExpenseService,
+} from "../util/expense";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function ManageExpense({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,11 +28,13 @@ function ManageExpense({ route, navigation }) {
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
-  const selectedExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
+  const selectedExpense = allExpenses.find(
+    (expense) => expense.id === editedExpenseId,
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? 'Edit Expense' : 'Add Expense',
+      title: isEditing ? "Edit Expense" : "Add Expense",
     });
   }, [navigation, isEditing]);
 
@@ -35,7 +45,7 @@ function ManageExpense({ route, navigation }) {
       await deleteExpenseService(editedExpenseId);
       navigation.goBack();
     } catch (error) {
-      setError('Unable to delete the expense. Please try again later.');
+      setError("Unable to delete the expense. Please try again later.");
     }
     setIsSubmitting(false);
   }
@@ -52,14 +62,19 @@ function ManageExpense({ route, navigation }) {
         dispatch(addExpense({ ...expenseData, id: id }));
         navigation.goBack();
       } catch (error) {
-        setError('Unable to update the expense. Please try again later.');
+        setError("Unable to update the expense. Please try again later.");
       }
       setIsSubmitting(false);
     } else {
-      const currentExpense = allExpenses.find((expense) => expense.id === editedExpenseId);
+      const currentExpense = allExpenses.find(
+        (expense) => expense.id === editedExpenseId,
+      );
 
       if (!currentExpense) {
-        console.log('ERR-01: Could not find the expense with id: ', editedExpenseId);
+        console.log(
+          "ERR-01: Could not find the expense with id: ",
+          editedExpenseId,
+        );
         return;
       }
 
@@ -68,13 +83,13 @@ function ManageExpense({ route, navigation }) {
           updateExpense({
             id: editedExpenseId,
             ...expenseData,
-          })
+          }),
         );
         setIsSubmitting(true);
         await updateExpenseService(editedExpenseId, expenseData);
         navigation.goBack();
       } catch (error) {
-        setError('Unable to add the expense. Please try again later.');
+        setError("Unable to add the expense. Please try again later.");
       }
       setIsSubmitting(false);
     }
@@ -95,7 +110,7 @@ function ManageExpense({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ExpenseForm
-        submitButtonLabel={isEditing ? 'Update' : 'Add'}
+        submitButtonLabel={isEditing ? "Update" : "Add"}
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
         defaultValues={selectedExpense}
@@ -103,7 +118,12 @@ function ManageExpense({ route, navigation }) {
 
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton icon="trash" color={GlobalStyles.colors.error500} size={36} onPress={deleteExpenseHandler} />
+          <IconButton
+            icon="trash"
+            color={GlobalStyles.colors.error500}
+            size={36}
+            onPress={deleteExpenseHandler}
+          />
         </View>
       )}
     </View>
@@ -124,6 +144,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.primary200,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

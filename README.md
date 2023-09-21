@@ -92,3 +92,11 @@ If you'd like to contribute to this project, please follow these guidelines:
 3. Make your changes and commit them with clear and concise messages.
 4. Push your branch to your fork.
 5. Create a pull request with a detailed description of your changes.
+
+## Roadmap
+
+- [x] All Expenses List
+- [x] Recent Expenses
+- [ ] User Registration and Login
+- [ ] Push Notifications for future expenses and overspending
+- [ ] Track Earnings

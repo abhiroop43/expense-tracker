@@ -2,7 +2,8 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import Button from "../UI/Button";
-import Input from "./Input";
+import Input from "../Shared/Input";
+import { GlobalStyles } from "../../constants/styles";
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -48,36 +49,44 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
       <View>
         <Input
           label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, "email")}
-          value={enteredEmail}
-          keyboardType="email-address"
+          textInputConfig={{
+            onUpdateValue: updateInputValueHandler.bind(this, "email"),
+            value: { enteredEmail },
+            keyboardType: "email-address",
+          }}
           isInvalid={emailIsInvalid}
         />
         {!isLogin && (
           <Input
             label="Confirm Email Address"
-            onUpdateValue={updateInputValueHandler.bind(this, "confirmEmail")}
-            value={enteredConfirmEmail}
-            keyboardType="email-address"
+            textInputConfig={{
+              onUpdateValue: updateInputValueHandler.bind(this, "confirmEmail"),
+              value: { enteredConfirmEmail },
+              keyboardType: "email-address",
+            }}
             isInvalid={emailsDontMatch}
           />
         )}
         <Input
           label="Password"
-          onUpdateValue={updateInputValueHandler.bind(this, "password")}
-          secure
-          value={enteredPassword}
+          textInputConfig={{
+            onUpdateValue: updateInputValueHandler.bind(this, "password"),
+            secure,
+            value: { enteredPassword },
+          }}
           isInvalid={passwordIsInvalid}
         />
         {!isLogin && (
           <Input
             label="Confirm Password"
-            onUpdateValue={updateInputValueHandler.bind(
-              this,
-              "confirmPassword",
-            )}
-            secure
-            value={enteredConfirmPassword}
+            textInputConfig={{
+              onUpdateValue: updateInputValueHandler.bind(
+                this,
+                "confirmPassword",
+              ),
+              secure,
+              value: { enteredConfirmPassword },
+            }}
             isInvalid={passwordsDontMatch}
           />
         )}
@@ -96,5 +105,25 @@ export default AuthForm;
 const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
+  },
+  inputContainer: {
+    marginVertical: 8,
+  },
+  label: {
+    color: "white",
+    marginBottom: 4,
+  },
+  labelInvalid: {
+    color: GlobalStyles.colors.error500,
+  },
+  input: {
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+    backgroundColor: GlobalStyles.colors.primary100,
+    borderRadius: 4,
+    fontSize: 16,
+  },
+  inputInvalid: {
+    backgroundColor: GlobalStyles.colors.error50,
   },
 });

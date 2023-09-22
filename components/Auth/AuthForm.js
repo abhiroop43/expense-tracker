@@ -50,8 +50,8 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         <Input
           label="Email Address"
           textInputConfig={{
-            onUpdateValue: updateInputValueHandler.bind(this, "email"),
-            value: { enteredEmail },
+            onChangeText: updateInputValueHandler.bind(this, "email"),
+            value: enteredEmail,
             keyboardType: "email-address",
           }}
           isInvalid={emailIsInvalid}
@@ -60,8 +60,8 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           <Input
             label="Confirm Email Address"
             textInputConfig={{
-              onUpdateValue: updateInputValueHandler.bind(this, "confirmEmail"),
-              value: { enteredConfirmEmail },
+              onChangeText: updateInputValueHandler.bind(this, "confirmEmail"),
+              value: enteredConfirmEmail,
               keyboardType: "email-address",
             }}
             isInvalid={emailsDontMatch}
@@ -70,9 +70,9 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         <Input
           label="Password"
           textInputConfig={{
-            onUpdateValue: updateInputValueHandler.bind(this, "password"),
-            secure,
-            value: { enteredPassword },
+            onChangeText: updateInputValueHandler.bind(this, "password"),
+            secureTextEntry: true,
+            value: enteredPassword,
           }}
           isInvalid={passwordIsInvalid}
         />
@@ -80,12 +80,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           <Input
             label="Confirm Password"
             textInputConfig={{
-              onUpdateValue: updateInputValueHandler.bind(
+              onChangeText: updateInputValueHandler.bind(
                 this,
                 "confirmPassword",
               ),
-              secure,
-              value: { enteredConfirmPassword },
+              secureTextEntry: true,
+              value: enteredConfirmPassword,
             }}
             isInvalid={passwordsDontMatch}
           />

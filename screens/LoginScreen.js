@@ -11,7 +11,7 @@ function LoginScreen() {
     setIsAuthenticating(true);
     console.log(email, password);
     const authResponse = await auth().signInWithEmailAndPassword(
-      "test@test.com",
+      "test3@test.com",
       "Abcd@1234",
     );
     console.log(authResponse);

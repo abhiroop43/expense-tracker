@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.anonymous.expensetracker"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -31,12 +32,7 @@
     },
     "plugins": [
       "@react-native-firebase/app",
-      "@react-native-firebase/auth",
-      "expo-build-properties",
-      {
-        "ios": {
-          "useFrameworks": "static"
-        }
-      }]
+      "@react-native-firebase/auth"
+    ]
   }
 }

@@ -10,7 +10,7 @@ function LoginScreen() {
   const loginHandler = async ({ email, password }) => {
     setIsAuthenticating(true);
     console.log(email, password);
-    const authResponse = await auth().createUserWithEmailAndPassword(
+    const authResponse = await auth().signInWithEmailAndPassword(
       "test@test.com",
       "Abcd@1234",
     );

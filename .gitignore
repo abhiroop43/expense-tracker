@@ -41,3 +41,5 @@ yarn-error.*
 
 # Configurations
 App.config.js
+google-services.json
+GoogleService-Info.plist

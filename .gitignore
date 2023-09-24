@@ -40,6 +40,6 @@ yarn-error.*
 .vscode/
 
 # Configurations
-App.config.js
+Config.js
 google-services.json
 GoogleService-Info.plist

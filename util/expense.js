@@ -1,11 +1,14 @@
-import axios from 'axios';
-import { AppConfig } from '../App.config';
-import { getFormattedDate } from './date';
+import axios from "axios";
+import { Config } from "../Config";
+import { getFormattedDate } from "./date";
 
-const BACKEND_URL = AppConfig.FIREBASE_URL;
+const BACKEND_URL = Config.FIREBASE_URL;
 
 export async function storeExpense(expenseData) {
-  const response = await axios.post(`${BACKEND_URL}/expenses.json`, expenseData);
+  const response = await axios.post(
+    `${BACKEND_URL}/expenses.json`,
+    expenseData,
+  );
   const id = response.data.name;
   return id;
 }

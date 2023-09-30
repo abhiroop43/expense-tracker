@@ -8,15 +8,25 @@ import AllExpenses from "./screens/AllExpenses";
 import { GlobalStyles } from "./constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./components/UI/IconButton";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./store/redux/store";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import { authenticate, logout } from "./store/redux/authentication";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLoading from "expo-app-loading";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function ExpensesOverview() {
+  const dispatch = useDispatch();
+
+  function logOutUserHandler() {
+    dispatch(logout());
+  }
+
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
@@ -29,14 +39,22 @@ function ExpensesOverview() {
         },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
         headerRight: ({ tintColor }) => (
-          <IconButton
-            icon="add"
-            size={24}
-            color={tintColor}
-            onPress={() => {
-              navigation.navigate("ManageExpense");
-            }}
-          />
+          <>
+            <IconButton
+              icon="add"
+              size={24}
+              color={tintColor}
+              onPress={() => {
+                navigation.navigate("ManageExpense");
+              }}
+            />
+            <IconButton
+              icon="exit"
+              color={tintColor}
+              size={24}
+              onPress={logOutUserHandler}
+            />
+          </>
         ),
       })}
     >
@@ -108,9 +126,34 @@ function ExpensesStack() {
 }
 
 function NavContainer() {
+  const [isTryLogin, setIsTryLogin] = useState(true);
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+      // console.log(storedToken);
+
+      if (storedToken) {
+        dispatch(authenticate(storedToken));
+      }
+    }
+
+    fetchToken().then(() => {
+      setIsTryLogin(false);
+    });
+  }, []);
+
+  if (isTryLogin) {
+    return <AppLoading />;
+  }
+
   return (
     <NavigationContainer>
-      <AuthStack />
+      {!isAuthenticated ? <AuthStack /> : <ExpensesStack />}
     </NavigationContainer>
   );
 }
